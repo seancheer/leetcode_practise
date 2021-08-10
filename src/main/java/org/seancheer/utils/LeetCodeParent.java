@@ -1,5 +1,6 @@
 package org.seancheer.utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -24,6 +25,18 @@ public class LeetCodeParent {
     }
 
     /**
+     * 打印二维数组, List<int[]>的形式
+     *
+     * @param res
+     */
+    protected static void printListArr(List<int[]> res) {
+        for (int[] item : res) {
+            System.out.print(Arrays.toString(item));
+        }
+        System.out.println();
+    }
+
+    /**
      * 打印列表中的列表
      *
      * @param res
@@ -34,6 +47,7 @@ public class LeetCodeParent {
         }
         System.out.println();
     }
+
 
     /**
      * generate a array
@@ -110,7 +124,8 @@ public class LeetCodeParent {
     }
 
     /**
-     * 将类似于[[0,2],[1,3],[1,1]]这样的字符串，转换为二维数组。
+     * 将类似于[[0,2],[1,3],[1,1]]这样的字符串，转换为二维数组，注意，需要字符串是一个二维数组字符串，也就意味着
+     * row和col是固定的。
      *
      * @param str
      * @return
@@ -143,6 +158,58 @@ public class LeetCodeParent {
         return res;
     }
 
+
+    /**
+     * 把诸如[[2],[2],[2,6],[1],[1,5],[1,2],[1],[2]]这样的字符串转换为list，和上面不同的是，
+     * 这里的二维数组col是变化的
+     *
+     * @param arrStr
+     * @return
+     */
+    protected static List<List<Integer>> convertStrTo2DemList(String arrStr) {
+        if (null == arrStr || arrStr.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<List<Integer>> res = new ArrayList<>();
+        arrStr = arrStr.trim();
+        arrStr = arrStr.substring(1, arrStr.length() - 1);
+        arrStr = arrStr.replaceAll(" |\n|\t", "");
+        arrStr = arrStr.substring(1, arrStr.length() - 1);
+        String[] itemArr = arrStr.split("]\\,\\[");
+        for (String item : itemArr) {
+            List<Integer> resItem = new ArrayList<>();
+            String[] strItem = item.split(",");
+            for (String str : strItem) {
+                resItem.add(Integer.parseInt(str));
+            }
+            res.add(resItem);
+        }
+        return res;
+    }
+
+    /**
+     * 将字符串转换为一维数组，类似的形式如：[1,2,3,4]
+     * @param arrStr
+     * @return
+     */
+    protected static int[] converStrTo1DemArr(String arrStr){
+        if (null == arrStr){
+            return new int[0];
+        }
+        arrStr = arrStr.strip().replaceAll(" |\n|\t|]|\\[", "");
+        if (arrStr.isEmpty()){
+            return new int[0];
+        }
+
+        String[] strs = arrStr.split(",");
+        int[] res = new int[strs.length];
+        for(int i = 0;i < strs.length;++i){
+            res[i] = Integer.parseInt(strs[i]);
+        }
+        return res;
+    }
+
     /**
      * 测试入口
      *
@@ -156,5 +223,14 @@ public class LeetCodeParent {
         str = "  [[0,2,1],[1,3,2],[1,1,3]]  ";
         res = convertStrTo2DemArr(str);
         printRes(res);
+
+        str = "[[2],[2] , [2, 6] ,[1],[1, 5], [1,2],[1],[2]] ";
+        var res2 = convertStrTo2DemList(str);
+        printRes(res2);
+
+
+        str = " [1,2,3,4,5,6] ";
+        var res3 = converStrTo1DemArr(str);
+        System.out.println(Arrays.toString(res3));
     }
 }

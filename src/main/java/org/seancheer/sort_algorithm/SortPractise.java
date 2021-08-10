@@ -28,11 +28,24 @@ public class SortPractise extends LeetCodeParent {
         insertSort(arr);
         printArray(arr, "after insertSort");
 
-        //3归并排序
+        //3归并排序, 这里实现了两种方式，一种自顶向下（递归），一种自底向上（迭代）
+        /**
+         * merge sort
+         * 两种实现方式，可以参考这里 https://www.cnblogs.com/nullzx/p/5968170.html
+         * 1 自顶向下，采用递归的实现方式
+         * 2 自底向上，采用迭代的方式
+         */
         arr = genArray(ARR_SIZE, UP_BOUND);
-        printArray(arr, "before mergeSort");
-        mergeSort(arr);
-        printArray(arr, "after mergeSort");
+        int[] arrCopy = Arrays.copyOf(arr, arr.length);
+        printArray(arr, "before mergeSort(up2Bottom)");
+        //1 自顶向下，采用递归的实现方式
+        mergeSortUp2Bottom(arr);
+        printArray(arr, "after mergeSort(up2Bottom)");
+
+        printArray(arrCopy, "before mergeSort(bottom2Up)");
+        //2 自底向上，采用迭代的方式
+        mergeSortBottom2Up(arrCopy);
+        printArray(arrCopy, "after mergeSort(bottom2Up)");
 
         //4基数排序
         arr = genArray(ARR_SIZE, UP_BOUND);
@@ -117,17 +130,61 @@ public class SortPractise extends LeetCodeParent {
         }
     }
 
-
     /**
-     * merge sort
+     * 自底向上的实现方式，迭代方式实现
      *
      * @param arr
      */
-    private static void mergeSort(int[] arr) {
-        if (null == arr || arr.length == 0) {
-            return;
+    public static void mergeSortBottom2Up(int[] arr) {
+        int[] sortedArr = new int[arr.length];
+        int len = arr.length;
+        //类似于递归模式每次分一半，对半进行排序的思想，gap就是控制这个的
+        for (int gap = 1; gap < len; gap <<= 1) {
+            int i = 0;
+            while (i < len) {
+                mergeSortBottom2UpInternal(arr, i, i + gap, i + gap, i + gap + gap, sortedArr);
+                //因为每次都取一对，所以这里需要 + 2 * gap
+                i = i + gap + gap;
+            }
+        }
+    }
+
+    /**
+     * 对每一部分的数组进行排序，左闭右开
+     *
+     * @param arr
+     * @param start1
+     * @param end1
+     * @param start2
+     * @param end2
+     * @param sortedArr
+     */
+    private static void mergeSortBottom2UpInternal(int[] arr, int start1, int end1, int start2, int end2, int[] sortedArr) {
+        int i = start1, j = start2;
+        int k = start1;
+        int len = arr.length;
+        while (i < end1 && j < end2 && i < len && j < len) {
+            sortedArr[k++] = (arr[i] <= arr[j] ? arr[i++] : arr[j++]);
         }
 
+        while (i < end1 && i < len) {
+            sortedArr[k++] = arr[i++];
+        }
+        while (j < end2 && j < len) {
+            sortedArr[k++] = arr[j++];
+        }
+
+        for (i = start1; i < end2 && i < len; ++i) {
+            arr[i] = sortedArr[i];
+        }
+    }
+
+    /**
+     * 自顶向下的mergeSort，递归方式实现
+     *
+     * @param arr
+     */
+    private static void mergeSortUp2Bottom(int[] arr) {
         int[] sortedArr = new int[arr.length];
         mergeSortInternal(arr, sortedArr, 0, arr.length - 1);
     }
