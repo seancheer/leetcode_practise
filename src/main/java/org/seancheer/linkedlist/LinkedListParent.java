@@ -42,6 +42,10 @@ public class LinkedListParent extends LeetCodeParent {
      * @return
      */
     public static ListNode convertArrToListNode(int[] arr) {
+        if (null == arr || arr.length == 0) {
+            return null;
+        }
+
         ListNode head = new ListNode(arr[0]);
         ListNode cur = head;
         for (int i = 1; i < arr.length; ++i) {

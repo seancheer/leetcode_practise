@@ -1,10 +1,9 @@
-package org.seancheer;
+package org.seancheer.twopointers;
 
 import org.seancheer.utils.LeetCodeParent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +28,8 @@ public class _18_4Sum extends LeetCodeParent {
 
     /**
      * 解题思路：
+     * 其实是类似于{@link _15_3Sum}的思路，3sum是第一个值固定，前后夹击后两个值，4sum是前两个值固定，前后夹击后两个值，本质上
+     * 都是一样的
      * 1 排序
      * 2 循环前两个数的和，为了加快速度，后两个数采取前后夹击的方式
      *
