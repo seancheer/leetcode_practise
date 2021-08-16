@@ -22,6 +22,11 @@ public class LinkedListParent extends LeetCodeParent {
             this.val = val;
             this.next = next;
         }
+
+        @Override
+        public String toString() {
+            return String.valueOf(val);
+        }
     }
 
     static class Node {
@@ -83,5 +88,22 @@ public class LinkedListParent extends LeetCodeParent {
         }
         sb.append("]");
         return sb.toString();
+    }
+
+    /**
+     * 获取一个链表的末尾节点
+     * @param head
+     * @return
+     */
+    protected static ListNode getTailOfList(ListNode head){
+        if (null == head || head.next == null){
+            return head;
+        }
+
+        ListNode cur = head;
+        while(cur.next != null){
+            cur = cur.next;
+        }
+        return cur;
     }
 }

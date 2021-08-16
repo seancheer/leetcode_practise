@@ -175,7 +175,9 @@ public class LeetCodeParent {
         arrStr = arrStr.trim();
         arrStr = arrStr.substring(1, arrStr.length() - 1);
         arrStr = arrStr.replaceAll(" |\n|\t", "");
-        arrStr = arrStr.substring(1, arrStr.length() - 1);
+        if (arrStr.startsWith("[")) {
+            arrStr = arrStr.substring(1, arrStr.length() - 1);
+        }
         String[] itemArr = arrStr.split("]\\,\\[");
         for (String item : itemArr) {
             List<Integer> resItem = new ArrayList<>();
