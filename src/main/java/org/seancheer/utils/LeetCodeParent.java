@@ -217,7 +217,7 @@ public class LeetCodeParent {
      *
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         String str = "[[0,2],[1,3],[1,1]]";
         var res = convertStrTo2DemArr(str);
         printRes(res);
