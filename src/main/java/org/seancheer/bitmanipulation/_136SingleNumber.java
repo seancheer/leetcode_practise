@@ -1,4 +1,4 @@
-package org.seancheer;
+package org.seancheer.bitmanipulation;
 
 import org.seancheer.utils.LeetCodeParent;
 
