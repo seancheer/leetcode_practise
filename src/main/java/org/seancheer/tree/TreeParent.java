@@ -3,6 +3,8 @@ package org.seancheer.tree;
 import org.seancheer.utils.LeetCodeParent;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
@@ -37,19 +39,25 @@ public class TreeParent extends LeetCodeParent {
 
         /**
          * 深拷贝
+         *
          * @return
          * @throws CloneNotSupportedException
          */
         @Override
         protected Object clone() throws CloneNotSupportedException {
             TreeNode cur = new TreeNode(val);
-            if (null != left){
+            if (null != left) {
                 cur.left = (TreeNode) left.clone();
             }
-            if(null != right){
+            if (null != right) {
                 cur.right = (TreeNode) right.clone();
             }
             return cur;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(val);
         }
     }
 
@@ -107,8 +115,13 @@ public class TreeParent extends LeetCodeParent {
 
 
     /**
-     * 层次遍历打印二叉树
-     *
+     * 层次遍历打印二叉树，除了最后一层的null不打印之外，其他层的null都会打印出来，比如
+     *      3
+     *     /  \
+     *    1    8
+     *       /   \
+     *      4     9
+     * 结果将会是[3,1,8,null,null,4,9]，最后一层的孩子null不打印，但是1的孩子null是会打印出来的
      * @param node
      * @return
      */
@@ -119,26 +132,109 @@ public class TreeParent extends LeetCodeParent {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
 
-        Queue<TreeNode> q = new ArrayDeque<>();
+        Queue<TreeNode> q = new LinkedList<>();
         q.add(node);
         while (!q.isEmpty()) {
             int sz = q.size();
             int i = 0;
+            List<TreeNode> curLevel = new ArrayList<>();
+            boolean isLastLevel = true;
             //每次只打一层
             while (i < sz) {
                 TreeNode cur = q.remove();
-                sb.append(cur.val).append(", ");
-                if (cur.left != null) {
-                    q.add(cur.left);
-                }
-                if (cur.right != null) {
-                    q.add(cur.right);
+                curLevel.add(cur);
+                if (null != cur && (null != cur.left || null != cur.right)) {
+                    isLastLevel = false;
                 }
                 ++i;
+            }
+
+            for (TreeNode cur : curLevel) {
+                if (null != cur) {
+                    sb.append(cur.val).append(", ");
+                    //最后一层的儿子全都是null，所以就不加入到队列里面了
+                    if (!isLastLevel) {
+                        q.add(cur.left);
+                        q.add(cur.right);
+                    }
+                } else {
+                    sb.append("null").append(", ");
+                }
             }
         }
         //去除掉后面多余的符号
         String str = sb.substring(0, sb.length() - 2);
         return str + "]";
+    }
+
+    /**
+     * 根据层次遍历的结果把树构造出来，str的形式必须如下所示：
+     * [1,null,2]
+     * 对应的二叉树结构为
+     * 1
+     * \
+     * 2
+     *
+     * @param str
+     * @return
+     */
+    protected static TreeNode genTreeFromLevelOrder(String str) {
+        if (null == str || str.isEmpty()) {
+            return null;
+        }
+        str = str.trim().replaceAll(" |\t", "");
+        //去掉前后的[]
+        str = str.substring(1, str.length() - 1);
+        if (str.isEmpty()) {
+            return null;
+        }
+        String[] strLi = str.split(",");
+        int len = strLi.length;
+        int i = 0;
+        Queue<TreeNode> q = new LinkedList<>();
+        if (strLi[i].equalsIgnoreCase("null")) {
+            return null;
+        }
+
+        TreeNode root = new TreeNode(Integer.parseInt(strLi[i++]));
+        q.add(root);
+        while (i < len) {
+            int sz = q.size();
+            int j = 0;
+            while (j < sz) {
+                TreeNode cur = q.remove();
+                TreeNode left = null, right = null;
+                if (i < len) {
+                    String curVal = strLi[i++];
+                    if (!curVal.equalsIgnoreCase("null")) {
+                        left = new TreeNode(Integer.parseInt(curVal));
+                        q.add(left);
+                    }
+                }
+
+                if (i < len) {
+                    String curVal = strLi[i++];
+                    if (!curVal.equalsIgnoreCase("null")) {
+                        right = new TreeNode(Integer.parseInt(curVal));
+                        q.add(right);
+                    }
+                }
+                cur.left = left;
+                cur.right = right;
+                j++;
+            }
+        }
+        return root;
+    }
+
+    /**
+     * 测试程序
+     *
+     * @param args
+     */
+    public static void main(String[] args) throws Exception {
+        String str = "[3,1,4,null,null,2]";
+        TreeNode root = genTreeFromLevelOrder(str);
+        System.out.println(toStringTreeLevelOrder(root));
     }
 }
