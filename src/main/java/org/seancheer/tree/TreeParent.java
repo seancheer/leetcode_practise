@@ -2,7 +2,6 @@ package org.seancheer.tree;
 
 import org.seancheer.utils.LeetCodeParent;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +22,7 @@ public class TreeParent extends LeetCodeParent {
         int val;
         TreeNode left;
         TreeNode right;
+        TreeNode parent;
 
         TreeNode() {
         }
@@ -61,6 +61,23 @@ public class TreeParent extends LeetCodeParent {
         }
     }
 
+    static class ParentTreeNode extends TreeNode {
+    }
+
+    /**
+     * 根据value从树中查找该value第一次出现的node，一次性查找多个value
+     *
+     * @param root
+     * @param vals
+     * @return
+     */
+    protected static List<TreeNode> findNodesByVals(TreeNode root, int[] vals) {
+        List<TreeNode> nodes = new ArrayList<>();
+        for(int num : vals){
+            nodes.add(findNodeByVal(root, num));
+        }
+        return nodes;
+    }
 
     /**
      * 根据value从树中查找该value第一次出现的node
@@ -250,6 +267,12 @@ public class TreeParent extends LeetCodeParent {
                 }
                 cur.left = left;
                 cur.right = right;
+                if (null != left) {
+                    left.parent = cur;
+                }
+                if (null != right) {
+                    right.parent = cur;
+                }
                 j++;
             }
         }
