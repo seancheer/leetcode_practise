@@ -61,6 +61,34 @@ public class TreeParent extends LeetCodeParent {
         }
     }
 
+
+    /**
+     * 根据value从树中查找该value第一次出现的node
+     *
+     * @param root
+     * @param val
+     * @return
+     */
+    protected static TreeNode findNodeByVal(TreeNode root, int val) {
+        if (null == root) {
+            return null;
+        }
+
+        if (root.val == val) {
+            return root;
+        }
+
+        TreeNode res = findNodeByVal(root.left, val);
+        if (null != res) {
+            return res;
+        }
+        res = findNodeByVal(root.right, val);
+        if (null != res) {
+            return res;
+        }
+        return null;
+    }
+
     /**
      * 中序遍历打印多个二叉树
      *
@@ -116,12 +144,13 @@ public class TreeParent extends LeetCodeParent {
 
     /**
      * 层次遍历打印二叉树，除了最后一层的null不打印之外，其他层的null都会打印出来，比如
-     *      3
-     *     /  \
-     *    1    8
-     *       /   \
-     *      4     9
+     * 3
+     * /  \
+     * 1    8
+     * /   \
+     * 4     9
      * 结果将会是[3,1,8,null,null,4,9]，最后一层的孩子null不打印，但是1的孩子null是会打印出来的
+     *
      * @param node
      * @return
      */
