@@ -37,6 +37,30 @@ public class TreeParent extends LeetCodeParent {
             this.right = right;
         }
 
+        public void setLeft(TreeNode left) {
+            this.left = left;
+        }
+
+        public void setRight(TreeNode right) {
+            this.right = right;
+        }
+
+        public void setParent(TreeNode parent) {
+            this.parent = parent;
+        }
+
+        public TreeNode getLeft() {
+            return left;
+        }
+
+        public TreeNode getRight() {
+            return right;
+        }
+
+        public TreeNode getParent() {
+            return parent;
+        }
+
         /**
          * 深拷贝
          *
@@ -63,6 +87,71 @@ public class TreeParent extends LeetCodeParent {
 
     static class ParentTreeNode extends TreeNode {
     }
+
+
+    /**
+     * 某些特殊题需要使用到的类
+     */
+    static class Node extends TreeNode{
+        public Node next;
+        public Node left;
+        public Node right;
+        public Node parent;
+        public Node() {}
+
+        public Node(int _val) {
+            val = _val;
+        }
+
+        public Node(int _val, Node _left, Node _right, Node _next) {
+            val = _val;
+            left = _left;
+            right = _right;
+            next = _next;
+        }
+
+        public Node(Object val) {
+        }
+
+        @Override
+        public void setLeft(TreeNode left) {
+            this.left = (Node) left;
+        }
+
+        @Override
+        public void setRight(TreeNode right) {
+            this.right = (Node) right;
+        }
+
+        @Override
+        public void setParent(TreeNode parent) {
+            this.parent = (Node) parent;
+        }
+
+        @Override
+        public Node getLeft() {
+            return left;
+        }
+
+        @Override
+        public Node getRight() {
+            return right;
+        }
+
+        @Override
+        public Node getParent() {
+            return parent;
+        }
+
+        /**
+         * 构造工厂
+         * @param str
+         * @return
+         */
+        public static Node genTreeFromLevelOrder(String str) {
+            return (Node) TreeParent.genTreeFromLevelOrder(str, Node::new);
+        }
+    };
 
     /**
      * 根据value从树中查找该value第一次出现的node，一次性查找多个value
@@ -220,11 +309,26 @@ public class TreeParent extends LeetCodeParent {
      * 1
      * \
      * 2
-     *
+     * 默认创建TreeNode
      * @param str
      * @return
      */
     protected static TreeNode genTreeFromLevelOrder(String str) {
+        return genTreeFromLevelOrder(str, TreeNode::new);
+    }
+
+    /**
+     * 根据层次遍历的结果把树构造出来，str的形式必须如下所示：
+     * [1,null,2]
+     * 对应的二叉树结构为
+     * 1
+     * \
+     * 2
+     *
+     * @param str
+     * @return
+     */
+    protected static TreeNode genTreeFromLevelOrder(String str, TreeNodeCreator creator) {
         if (null == str || str.isEmpty()) {
             return null;
         }
@@ -242,7 +346,7 @@ public class TreeParent extends LeetCodeParent {
             return null;
         }
 
-        TreeNode root = new TreeNode(Integer.parseInt(strLi[i++]));
+        TreeNode root = creator.newInstance(Integer.parseInt(strLi[i++]));
         q.add(root);
         while (i < len) {
             int sz = q.size();
@@ -253,7 +357,7 @@ public class TreeParent extends LeetCodeParent {
                 if (i < len) {
                     String curVal = strLi[i++];
                     if (!curVal.equalsIgnoreCase("null")) {
-                        left = new TreeNode(Integer.parseInt(curVal));
+                        left = creator.newInstance(Integer.parseInt(curVal));
                         q.add(left);
                     }
                 }
@@ -261,22 +365,30 @@ public class TreeParent extends LeetCodeParent {
                 if (i < len) {
                     String curVal = strLi[i++];
                     if (!curVal.equalsIgnoreCase("null")) {
-                        right = new TreeNode(Integer.parseInt(curVal));
+                        right = creator.newInstance(Integer.parseInt(curVal));
                         q.add(right);
                     }
                 }
-                cur.left = left;
-                cur.right = right;
+
+                cur.setLeft(left);
+                cur.setRight(right);
                 if (null != left) {
-                    left.parent = cur;
+                    left.setParent(cur);
                 }
                 if (null != right) {
-                    right.parent = cur;
+                    right.setParent(cur);
                 }
                 j++;
             }
         }
         return root;
+    }
+
+    /**
+     * TreeNode的创建接口
+     */
+    interface TreeNodeCreator{
+        TreeNode newInstance(int val);
     }
 
     /**
