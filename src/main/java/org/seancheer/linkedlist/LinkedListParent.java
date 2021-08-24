@@ -8,8 +8,8 @@ public class LinkedListParent extends LeetCodeParent {
      * Definition for singly-linked list.
      */
     public static class ListNode {
-        int val;
-        ListNode next;
+        public int val;
+        public ListNode next;
 
         ListNode() {
         }
@@ -30,8 +30,8 @@ public class LinkedListParent extends LeetCodeParent {
     }
 
     static class Node {
-        int data;
-        Node next;
+        public int data;
+        public Node next;
 
         Node(int d) {
             data = d;

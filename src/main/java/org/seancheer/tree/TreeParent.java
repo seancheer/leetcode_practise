@@ -21,10 +21,10 @@ public class TreeParent extends LeetCodeParent {
      * 二叉树的定义
      */
     static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode parent;
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
+        public TreeNode parent;
 
         TreeNode() {
         }
@@ -85,9 +85,6 @@ public class TreeParent extends LeetCodeParent {
         public String toString() {
             return String.valueOf(val);
         }
-    }
-
-    static class ParentTreeNode extends TreeNode {
     }
 
 
