@@ -3,9 +3,11 @@ package org.seancheer.tree;
 import org.seancheer.utils.LeetCodeParent;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Map;
 
 /**
  * 树的一些相关的数据结构
@@ -262,7 +264,7 @@ public class TreeParent extends LeetCodeParent {
      */
     protected static String toStringTreeLevelOrder(TreeNode node) {
         if (null == node) {
-            return "";
+            return "[]";
         }
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -400,5 +402,32 @@ public class TreeParent extends LeetCodeParent {
         String str = "[3,1,4,null,null,2]";
         TreeNode root = genTreeFromLevelOrder(str);
         System.out.println(toStringTreeLevelOrder(root));
+
+        Map<String , String> map =new LinkedHashMap<>(16,0.75f,true);
+        map.put("one", "one");
+        map.put("two", "two");
+        map.put("three", "three");
+        System.out.println("-----------------------------------------------------------------");
+        for(Map.Entry<String, String> item : map.entrySet()){
+            System.out.println("key=" + item.getKey() + "  value=" + item.getValue());
+        }
+        map.get("two");
+        System.out.println("-----------------------------------------------------------------");
+        for(Map.Entry<String, String> item : map.entrySet()){
+            System.out.println("key=" + item.getKey() + "  value=" + item.getValue());
+        }
+
+        map.get("one");
+        System.out.println("-----------------------------------------------------------------");
+        for(Map.Entry<String, String> item : map.entrySet()){
+            System.out.println("key=" + item.getKey() + "  value=" + item.getValue());
+        }
+
+        map.put("four", "four");
+        System.out.println("-----------------------------------------------------------------");
+        for(Map.Entry<String, String> item : map.entrySet()){
+            System.out.println("key=" + item.getKey() + "  value=" + item.getValue());
+        }
+
     }
 }
