@@ -213,6 +213,25 @@ public class LeetCodeParent {
     }
 
     /**
+     * 打印数组的特定位置，范围[0, threshold）
+     * @param arr
+     * @param threshold
+     */
+    protected static String toStringArr(int[] arr, int threshold){
+        if (null == arr || arr.length == 0 || threshold < 0){
+            return "[]";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for(int i = 0;i < threshold && i < arr.length;++i){
+            sb.append(arr[i]).append(", ");
+        }
+        sb.delete(sb.length() - 2, sb.length());
+        sb.append("]");
+        return sb.toString();
+    }
+
+    /**
      * 测试入口
      *
      * @param args
