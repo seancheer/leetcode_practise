@@ -13,14 +13,25 @@ public class LeetCodeParent {
     private static final String END_SEPERATOR = "----------------------------------------------------------------------------------------------";
 
     /**
+     * 打印二维数组，不过构造好要打印的东西，然后返回给caller，caller可以自定义输出格式
+     * @param res
+     * @return
+     */
+    protected static String toStringRes(int[][] res){
+        StringBuilder sb = new StringBuilder();
+        for (int[] item : res) {
+            sb.append(Arrays.toString(item));
+        }
+        return sb.toString();
+    }
+
+    /**
      * 打印二维数组
      *
      * @param res
      */
     protected static void printRes(int[][] res) {
-        for (int[] item : res) {
-            System.out.print(Arrays.toString(item));
-        }
+        System.out.print(toStringRes(res));
         System.out.println();
     }
 
