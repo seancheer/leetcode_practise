@@ -147,7 +147,10 @@ public class LeetCodeParent {
         }
 
         str = str.trim().replaceAll(" ", "");
-        str = str.substring(1, str.length() - 1);
+        str = str.substring(1, str.length() - 1).trim();
+        if (str.isEmpty()){
+            return new int[0][0];
+        }
         String[] strs = str.split("]");
         int row = strs.length;
         int col = strs[0].split(",").length;
