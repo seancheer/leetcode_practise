@@ -1,8 +1,6 @@
-package org.seancheer;
+package org.seancheer.bitmanipulation;
 
 import org.seancheer.utils.LeetCodeParent;
-
-import java.util.Arrays;
 
 /**
  * Calculate the sum of two integers a and b, but you are not allowed to use the operator + and -.
