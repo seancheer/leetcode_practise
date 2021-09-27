@@ -40,15 +40,43 @@ import org.seancheer.utils.LeetCodeParent;
  **/
 public class _38CountAndSay extends LeetCodeParent {
     public static void main(String[] args) {
-        var obj = new _8StringToInteger();
-        String s = "42";
-        var res = obj.myAtoi(s);
-        System.out.println("res:" + res); // 42
+        var obj = new _38CountAndSay();
+        int n = 1;
+        var res = obj.countAndSay(1);
+        System.out.println("res:" + res); // "1"
+
+        n = 4;
+        res = obj.countAndSay(n);
+        System.out.println("res:" + res); // "1211"
     }
 
-
+    /**
+     * 解题思路：按照题目的描述，按照递归的方式进行处理，每次都是基于上次的结果来处理的。
+     * 迭代的解法也很简单，这里就不写了
+     * @param n
+     * @return
+     */
     public String countAndSay(int n) {
-        //TODO 待完成
-        return "";
+        if (n <= 1){
+            return "1";
+        }
+
+        String str = countAndSay(n - 1);
+        //得到上一次的结果后，接下来进行countAndSay
+        int len = str.length();
+        StringBuilder res = new StringBuilder();
+        int count = 1;
+        int i = 1;
+        for(;i < len;++i){
+            if (str.charAt(i) == str.charAt(i - 1)){
+                ++count;
+            }else{
+                res.append(count).append(str.charAt(i - 1));
+                count = 1;
+            }
+        }
+        //还有最后的字符还没有处理，所以要单独来处理
+        res.append(count).append(str.charAt(i - 1));
+        return res.toString();
     }
 }
