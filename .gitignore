@@ -3,3 +3,7 @@
 target/
 out/
 .DS_Store
+cmake-build-debug
+build/
+info.plist
+*.yml
