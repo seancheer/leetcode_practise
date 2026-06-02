@@ -50,7 +50,7 @@ func subsetsInternal(nums []int, count int, idx int, item []int, result *[][]int
 	}
 }
 
-// subsets2 非递归解决办法, 没来一个数，就往旧子集中加入这个数构成新的子集，这样子就能完成所有的子集遍历
+// subsets2 非递归解决办法, 每来一个数，就往旧子集中加入这个数构成新的子集，这样子就能完成所有的子集遍历
 func subsets2(nums []int) [][]int {
 	result := make([][]int, 0)
 	// 首先加入空集
